@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+:root {
+  /* Ms. Lilly's Playful Color Palette */
+  --lilly-primary: #F59E0B; /* Honey Amber */
+  --lilly-secondary: #10B981; /* Sage Green */
+  --lilly-accent: #FB7185; /* Coral */
+  --lilly-bg: #FFFBEB; /* Warm Cream */
+  --lilly-card: #FEF3C7; /* Soft Peach */
+  --lilly-text: #78350F; /* Warm Brown */
+  --lilly-text-muted: #92400E; /* Muted Brown */
+  
+  --background: var(--lilly-bg);
+  --foreground: var(--lilly-text);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Nunito', 'Quicksand', sans-serif;
+}
+
+/* Paw Print Background Pattern */
+.paw-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F59E0B' fill-opacity='0.05'%3E%3Cpath d='M30 20c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5 4.5-2 4.5-4.5-2-4.5-4.5-4.5zm-8 8c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5 2.5-1 2.5-2.5-1-2.5-2.5-2.5zm16 0c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5 2.5-1 2.5-2.5-1-2.5-2.5-2.5zm-8 8c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5 2.5-1 2.5-2.5-1-2.5-2.5-2.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Animations */
+@keyframes pawFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.05;
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+    opacity: 0.08;
+  }
+}
+
+@keyframes tailWag {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes boneBounce {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+@keyframes quoteFade {
+  0%, 100% {
+    opacity: 0;
+  }
+  20%, 80% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-paw-float {
+  animation: pawFloat 3s ease-in-out infinite;
+}
+
+.animate-tail-wag {
+  animation: tailWag 0.5s ease-in-out infinite;
+}
+
+.animate-bone-bounce {
+  animation: boneBounce 0.6s ease-in-out;
+}
+
+.animate-quote-fade {
+  animation: quoteFade 8s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Bone Shape SVG */
+.bone-shape {
+  clip-path: polygon(20% 0%, 80% 0%, 100% 30%, 100% 70%, 80% 100%, 20% 100%, 0% 70%, 0% 30%);
+}

@@ -1,0 +1,36 @@
+{
+  "name": "lilly",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "generate-embeddings": "tsx scripts/generate-embeddings.ts",
+    "clean-text": "tsx scripts/clean-text.ts",
+    "upload-media": "tsx scripts/upload-media-to-supabase.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^2.0.47",
+    "@ai-sdk/react": "^2.0.115",
+    "@supabase/supabase-js": "^2.88.0",
+    "ai": "^5.0.113",
+    "next": "16.0.7",
+    "okapibm25": "^1.4.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "zod": "^4.2.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.7",
+    "tailwindcss": "^4",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
+  }
+}
