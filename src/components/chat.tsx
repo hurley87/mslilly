@@ -1,6 +1,7 @@
 'use client';
 
 import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import type { SearchResult } from '@/lib/semantic-search';
@@ -24,8 +25,10 @@ const SAMPLE_QUESTIONS = [
  * Floating widget with FAB button and modal interface
  */
 export default function Chat() {
-  const { messages, sendMessage, status, error, data } = useChat({
-    api: '/api/chat',
+  const { messages, sendMessage, status, error } = useChat({
+    transport: new DefaultChatTransport({
+      api: '/api/chat',
+    }),
   });
   const [input, setInput] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -55,35 +58,10 @@ export default function Chat() {
 
   /**
    * Extract search results from stream data
+   * Note: Currently not implemented as the API doesn't send search results as stream data
    */
   const getSearchResultsFromData = (): SearchResult[] => {
-    if (!data || !Array.isArray(data)) return [];
-    
-    // Look for data-search-results in the data array
-    for (const item of data) {
-      if (item && typeof item === 'object') {
-        const dataItem = item as any;
-        // Check for custom data type with JSON string in 'data' field
-        if (dataItem.type === 'data-search-results' && typeof dataItem.data === 'string') {
-          try {
-            const results = JSON.parse(dataItem.data);
-            if (Array.isArray(results)) {
-              return results.map((r: any) => ({
-                postIndex: 0,
-                mediaIndex: 0,
-                title: r.title ?? '',
-                uri: r.uri ?? '',
-                isVideo: r.isVideo ?? false,
-                creationTimestamp: r.creationTimestamp ?? 0,
-                similarity: 0,
-              }));
-            }
-          } catch {
-            // Invalid JSON, skip
-          }
-        }
-      }
-    }
+    // TODO: Implement when API route sends search results as stream data
     return [];
   };
 
@@ -279,7 +257,7 @@ export default function Chat() {
                       <button
                         key={question}
                         onClick={() => {
-                          sendMessage({ prompt: question });
+                          sendMessage({ parts: [{ type: 'text', text: question }] });
                         }}
                         disabled={isLoading}
                         className="relative px-4 py-2 text-sm font-medium rounded-full bg-[#F59E0B] text-white hover:bg-[#D97706] hover:scale-105 transform transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
@@ -300,9 +278,8 @@ export default function Chat() {
                 // For assistant messages, get search results from stream data
                 const isLastAssistantMessage = !isUser && index === messages.length - 1;
                 const media = isLastAssistantMessage ? getSearchResultsFromData() : [];
-                const messageTime = message.createdAt 
-                  ? new Date(message.createdAt).getTime() / 1000 
-                  : undefined;
+                // UIMessage doesn't have createdAt, so we'll use undefined to show "Just now"
+                const messageTime = undefined;
 
                 return (
                   <div key={message.id}>
@@ -391,7 +368,7 @@ export default function Chat() {
               onSubmit={(e) => {
                 e.preventDefault();
                 if (input.trim()) {
-                  sendMessage({ prompt: input });
+                  sendMessage({ parts: [{ type: 'text', text: input }] });
                   setInput('');
                 }
               }}
@@ -410,7 +387,7 @@ export default function Chat() {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
                       if (input.trim()) {
-                        sendMessage({ prompt: input });
+                        sendMessage({ parts: [{ type: 'text', text: input }] });
                         setInput('');
                       }
                     }
