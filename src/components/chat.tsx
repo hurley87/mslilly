@@ -201,7 +201,7 @@ export default function Chat() {
           />
 
           {/* Chat Widget - Positioned above FAB button */}
-          <div className="relative w-full h-[85vh] sm:h-[700px] sm:w-[500px] sm:max-w-[90vw] sm:rounded-2xl bg-[#FFFBEB] shadow-2xl flex flex-col pointer-events-auto animate-slide-up overflow-hidden mb-24 sm:mb-28 mr-4 sm:mr-6">
+          <div className="relative w-full h-[85vh] sm:h-[700px] sm:w-[500px] sm:max-w-[90vw] sm:rounded-2xl bg-[#FFFBEB] shadow-2xl flex flex-col pointer-events-auto animate-slide-up overflow-hidden mb-24 sm:mb-28 sm:mr-6">
             {/* Header */}
             <div className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -306,8 +306,6 @@ export default function Chat() {
                       <div className="flex items-center gap-1 mt-1 ml-2 text-xs text-[#92400E]/70">
                         <span className="font-medium">Ms. Lilly</span>
                         <span>•</span>
-                        <span>AI Pet</span>
-                        <span>•</span>
                         <span>{getRelativeTime(messageTime)}</span>
                       </div>
                     )}
@@ -340,8 +338,6 @@ export default function Chat() {
                   </div>
                   <div className="flex items-center gap-1 mt-1 ml-2 text-xs text-[#92400E]/70">
                     <span className="font-medium">Ms. Lilly</span>
-                    <span>•</span>
-                    <span>AI Pet</span>
                     <span>•</span>
                     <span>Just now</span>
                   </div>

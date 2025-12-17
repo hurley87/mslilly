@@ -254,20 +254,16 @@ export default function PostsIndex() {
       {/* Compact Header */}
       <header className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] py-6 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="text-5xl">🐕</div>
-            <div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-white">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="text-center">
+              <h1 className="text-4xl sm:text-5xl text-white font-[family-name:var(--font-pacifico)]">
                 Ms. Lilly
               </h1>
-              <p className="text-white/90 text-sm sm:text-base">
-                Explore all my adventures and wisdom
-              </p>
             </div>
           </div>
 
           {/* Search Bar */}
-          <div className="relative mb-4">
+          <div className="relative mb-4 max-w-md mx-auto">
             <input
               type="text"
               value={searchQuery}
@@ -309,7 +305,7 @@ export default function PostsIndex() {
           </div>
 
           {/* Search Tags */}
-          <div className="flex flex-wrap gap-2 mb-4 justify-center sm:justify-start">
+          <div className="flex flex-wrap gap-2 mb-4 justify-center">
             {SUGGESTED_TAGS.map((tag) => (
               <button
                 key={tag}
@@ -323,7 +319,7 @@ export default function PostsIndex() {
 
           {/* Filters - Only show when not searching */}
           {(!hasSearched || searchQuery.length < 2) && (
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-4">
               {/* Media Type Filter */}
               <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-1 py-1">
                 {(['all', 'photos', 'videos'] as MediaType[]).map((type) => (
@@ -431,7 +427,7 @@ export default function PostsIndex() {
         {displayPosts.length > 0 && (
           <>
             {hasSearched && searchQuery.length >= 2 && (
-              <div className="mb-6 text-sm text-zinc-600 dark:text-zinc-400">
+              <div className="mb-6 text-sm text-zinc-600 dark:text-zinc-400 text-center">
                 Found {searchResults.length} result
                 {searchResults.length !== 1 ? 's' : ''} for &quot;{searchQuery}&quot;
               </div>
