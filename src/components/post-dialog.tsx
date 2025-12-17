@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import Image from 'next/image';
 import { getMediaUrl } from '@/lib/supabase';
 import type { PostCardData } from './post-card';
@@ -155,7 +156,15 @@ export default function PostDialog({ post, open, onOpenChange }: PostDialogProps
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 transition-opacity duration-300 data-[state=open]:opacity-100 data-[state=closed]:opacity-0" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-3xl max-h-[90vh] translate-x-[-50%] translate-y-[-50%] gap-4 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 rounded-lg shadow-xl p-0 overflow-hidden transition-all duration-300 data-[state=open]:opacity-100 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=closed]:scale-95">
+        <Dialog.Content 
+          className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-3xl max-h-[90vh] translate-x-[-50%] translate-y-[-50%] gap-4 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 rounded-lg shadow-xl p-0 overflow-hidden transition-all duration-300 data-[state=open]:opacity-100 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=closed]:scale-95"
+          aria-describedby={undefined}
+        >
+          {/* Visually hidden title for screen reader accessibility */}
+          <VisuallyHidden asChild>
+            <Dialog.Title>Post Details</Dialog.Title>
+          </VisuallyHidden>
+          
           {/* Close Button */}
           <Dialog.Close className="absolute right-4 top-4 z-10 rounded-full p-2 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none focus:ring-2 focus:ring-[#F59E0B] focus:ring-offset-2">
             <svg

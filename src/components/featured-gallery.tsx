@@ -128,6 +128,7 @@ export default function FeaturedGallery() {
                         fill
                         className="object-cover"
                         sizes="(max-width: 640px) 288px, 320px"
+                        priority={index < 3}
                         onError={(e) => {
                           // Fallback to emoji if image fails to load
                           const target = e.target as HTMLImageElement;
