@@ -359,7 +359,7 @@ export default function PostsIndex() {
                     setSearchResults([]);
                   }
                 }}
-                className="px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/30 focus:outline-none focus:bg-white/30 transition-colors text-sm font-medium cursor-pointer"
+                className="px-1 py-2.5 rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/30 focus:outline-none focus:bg-white/30 transition-colors text-sm font-medium cursor-pointer"
               >
                 <option value="newest" className="text-zinc-900">
                   Newest First
