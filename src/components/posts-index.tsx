@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import PostCard, { type PostCardData } from './post-card';
+import PostDialog from './post-dialog';
 import type { SearchResult } from '@/lib/semantic-search';
 
 interface PostsResponse {
@@ -25,6 +26,18 @@ interface SearchResponse {
 type MediaType = 'all' | 'photos' | 'videos';
 type SortOrder = 'newest' | 'oldest';
 
+const SUGGESTED_TAGS = [
+  'cheese',
+  'napping',
+  'barking',
+  'garden',
+  'treats',
+  'walks',
+  'biscuit dance',
+  'The Warden',
+  'throwback',
+];
+
 /**
  * Main posts index component with search, filtering, and infinite scroll
  */
@@ -43,6 +56,9 @@ export default function PostsIndex() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+
+  // Dialog state
+  const [selectedPost, setSelectedPost] = useState<PostCardData | null>(null);
 
   const observerTarget = useRef<HTMLDivElement>(null);
   const isLoadingRef = useRef(false);
@@ -221,11 +237,10 @@ export default function PostsIndex() {
   });
 
   /**
-   * Handle post card click
+   * Handle post card click - opens dialog with full post details
    */
   const handlePostClick = (post: PostCardData) => {
-    // Could open a modal or navigate to a detail page
-    console.log('Post clicked:', post);
+    setSelectedPost(post);
   };
 
   // Determine which posts to display
@@ -291,6 +306,19 @@ export default function PostsIndex() {
                 </svg>
               </button>
             )}
+          </div>
+
+          {/* Search Tags */}
+          <div className="flex flex-wrap gap-2 mb-4 justify-center sm:justify-start">
+            {SUGGESTED_TAGS.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => setSearchQuery(tag)}
+                className="px-3 py-1.5 text-sm rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-colors"
+              >
+                {tag}
+              </button>
+            ))}
           </div>
 
           {/* Filters - Only show when not searching */}
@@ -449,6 +477,17 @@ export default function PostsIndex() {
           </>
         )}
       </main>
+
+      {/* Post Detail Dialog */}
+      <PostDialog
+        post={selectedPost}
+        open={selectedPost !== null}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedPost(null);
+          }
+        }}
+      />
     </div>
   );
 }

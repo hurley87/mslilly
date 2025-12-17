@@ -11,6 +11,18 @@ interface SearchResponse {
   count: number;
 }
 
+const SUGGESTED_TAGS = [
+  'cheese',
+  'napping',
+  'barking',
+  'garden',
+  'treats',
+  'walks',
+  'biscuit dance',
+  'The Warden',
+  'throwback',
+];
+
 /**
  * Search component with debounced input and results display
  */
@@ -80,6 +92,13 @@ export default function Search() {
       month: 'short',
       day: 'numeric',
     });
+  };
+
+  /**
+   * Handles tag click to populate search query
+   */
+  const handleTagClick = (tag: string) => {
+    setQuery(tag);
   };
 
   /**
@@ -219,6 +238,18 @@ export default function Search() {
               <div className="w-5 h-5 border-2 border-zinc-300 dark:border-zinc-600 border-t-zinc-900 dark:border-t-zinc-50 rounded-full animate-spin" />
             </div>
           )}
+        </div>
+        {/* Search Tags */}
+        <div className="flex flex-wrap gap-2 mt-4 justify-center">
+          {SUGGESTED_TAGS.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => handleTagClick(tag)}
+              className="px-3 py-1.5 text-sm rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+            >
+              {tag}
+            </button>
+          ))}
         </div>
       </div>
 

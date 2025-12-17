@@ -260,13 +260,9 @@ export default function Chat() {
                           sendMessage({ parts: [{ type: 'text', text: question }] });
                         }}
                         disabled={isLoading}
-                        className="relative px-4 py-2 text-sm font-medium rounded-full bg-[#F59E0B] text-white hover:bg-[#D97706] hover:scale-105 transform transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                        style={{
-                          clipPath: 'polygon(15% 0%, 85% 0%, 100% 30%, 100% 70%, 85% 100%, 15% 100%, 0% 70%, 0% 30%)',
-                        }}
+                        className="px-4 py-2 text-sm font-medium rounded-full bg-[#F59E0B] text-white hover:bg-[#D97706] hover:scale-105 transform transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                       >
-                        <span className="relative z-10">{question}</span>
-                        <span className="absolute top-1 right-1 text-xs opacity-70">🦴</span>
+                        {question}
                       </button>
                     ))}
                   </div>
