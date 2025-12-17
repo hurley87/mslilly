@@ -27,10 +27,18 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Nunito', 'Quicksand', sans-serif;
 }
 
-/* Paw Print Background Pattern */
+/* Enhanced Paw Print Background Pattern */
+/* Proper paw print with main pad and four toe pads */
 .paw-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F59E0B' fill-opacity='0.05'%3E%3Cpath d='M30 20c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5 4.5-2 4.5-4.5-2-4.5-4.5-4.5zm-8 8c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5 2.5-1 2.5-2.5-1-2.5-2.5-2.5zm16 0c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5 2.5-1 2.5-2.5-1-2.5-2.5-2.5zm-8 8c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5 2.5-1 2.5-2.5-1-2.5-2.5-2.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23F59E0B' fill-opacity='0.08'%3E%3Cpath d='M60 45c-3 0-5.5 2.5-5.5 5.5s2.5 5.5 5.5 5.5 5.5-2.5 5.5-5.5-2.5-5.5-5.5-5.5zm-12 12c-2 0-3.5 1.5-3.5 3.5s1.5 3.5 3.5 3.5 3.5-1.5 3.5-3.5-1.5-3.5-3.5-3.5zm24 0c-2 0-3.5 1.5-3.5 3.5s1.5 3.5 3.5 3.5 3.5-1.5 3.5-3.5-1.5-3.5-3.5-3.5zm-12 12c-2 0-3.5 1.5-3.5 3.5s1.5 3.5 3.5 3.5 3.5-1.5 3.5-3.5-1.5-3.5-3.5-3.5zm-12-12c-2 0-3.5 1.5-3.5 3.5s1.5 3.5 3.5 3.5 3.5-1.5 3.5-3.5-1.5-3.5-3.5-3.5z'/%3E%3C/g%3E%3C/svg%3E");
   background-repeat: repeat;
+  background-size: 120px 120px;
+}
+
+/* Individual paw print SVG for floating elements */
+.paw-print {
+  fill: var(--lilly-primary);
+  opacity: 0.1;
 }
 
 /* Animations */
@@ -95,6 +103,30 @@ body {
   }
 }
 
+@keyframes pawDrift {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) translateX(5px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-20px) translateX(-3px) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(-10px) translateX(3px) rotate(1deg);
+  }
+}
+
+@keyframes pawFade {
+  0%, 100% {
+    opacity: 0.08;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
 .animate-paw-float {
   animation: pawFloat 3s ease-in-out infinite;
 }
@@ -117,6 +149,22 @@ body {
 
 .animate-slide-up {
   animation: slideUp 0.3s ease-out;
+}
+
+.animate-paw-drift {
+  animation: pawDrift 4s ease-in-out infinite;
+}
+
+.animate-paw-fade {
+  animation: pawFade 3s ease-in-out infinite;
+}
+
+.animate-paw-drift-slow {
+  animation: pawDrift 6s ease-in-out infinite;
+}
+
+.animate-paw-fade-slow {
+  animation: pawFade 5s ease-in-out infinite;
 }
 
 /* Bone Shape SVG */

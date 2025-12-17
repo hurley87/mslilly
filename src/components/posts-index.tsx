@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import PostCard, { type PostCardData } from './post-card';
 import PostDialog from './post-dialog';
 import OnThisDay from './on-this-day';
+import PawBackground from './paw-background';
 import type { SearchResult } from '@/lib/semantic-search';
 
 interface PostsResponse {
@@ -298,9 +299,10 @@ export default function PostsIndex() {
       : posts;
 
   return (
-    <div className="min-h-screen bg-[#FFFBEB] paw-pattern">
+    <div className="min-h-screen bg-[#FFFBEB] relative">
+      <PawBackground />
       {/* Compact Header */}
-      <header className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] py-6 sm:py-8">
+      <header className="relative bg-gradient-to-r from-[#F59E0B] to-[#D97706] py-6 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="text-center">
@@ -432,7 +434,7 @@ export default function PostsIndex() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* On This Day Section */}
         {(!hasSearched || searchQuery.length < 2) && (
           <OnThisDay onPostClick={handlePostClick} />

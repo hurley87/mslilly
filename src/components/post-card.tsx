@@ -158,7 +158,7 @@ export default function PostCard({ post, onClick }: PostCardProps) {
   return (
     <div
       onClick={() => onClick?.(post)}
-      className="group relative overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:border-[#F59E0B] dark:hover:border-[#F59E0B] transition-all duration-300 hover:shadow-xl cursor-pointer"
+      className="group relative overflow-hidden rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm hover:bg-white/98 dark:hover:bg-zinc-900/98 hover:border-[#F59E0B]/60 dark:hover:border-[#F59E0B]/60 transition-all duration-300 hover:shadow-2xl hover:shadow-[#F59E0B]/10 cursor-pointer hover:-translate-y-1"
     >
       {/* Media Thumbnail */}
       <div className="relative aspect-video w-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
@@ -200,13 +200,18 @@ export default function PostCard({ post, onClick }: PostCardProps) {
       </div>
 
       {/* Title and Date */}
-      <div className="p-4">
+      <div className="p-4 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm group-hover:bg-white/70 dark:group-hover:bg-zinc-900/70 transition-colors duration-300">
         <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-50 line-clamp-2 mb-1">
           {post.title}
         </h3>
         <p className="text-xs text-zinc-500 dark:text-zinc-400">
           {formatDate(post.creationTimestamp)}
         </p>
+      </div>
+      
+      {/* Subtle glow effect on hover */}
+      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+        <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#F59E0B]/5 via-transparent to-[#FB7185]/5 blur-xl" />
       </div>
     </div>
   );

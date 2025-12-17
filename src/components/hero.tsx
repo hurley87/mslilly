@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getMediaUrl } from '@/lib/supabase';
+import PawBackground from './paw-background';
 
 /**
  * Ancient Basset Sayings to rotate in the hero section
@@ -38,7 +39,7 @@ export default function Hero() {
 
   return (
     <section className="relative py-16 sm:py-24 lg:py-32 overflow-hidden">
-      <div className="absolute inset-0 paw-pattern opacity-30" aria-hidden="true" />
+      <PawBackground />
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
