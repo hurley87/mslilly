@@ -95,6 +95,7 @@ export async function GET(request: NextRequest) {
     const limitParam = searchParams.get('limit');
     const typeParam = searchParams.get('type');
     const sortParam = searchParams.get('sort');
+    const randomParam = searchParams.get('random');
 
     // Parse and validate page
     let page = 1;
@@ -149,6 +150,18 @@ export async function GET(request: NextRequest) {
       results = results.filter((r) => !r.isVideo);
     } else if (type === 'videos') {
       results = results.filter((r) => r.isVideo);
+    }
+
+    // Handle random post request
+    if (randomParam === 'true') {
+      if (results.length === 0) {
+        return NextResponse.json(
+          { error: 'No posts available' },
+          { status: 404 }
+        );
+      }
+      const randomIndex = Math.floor(Math.random() * results.length);
+      return NextResponse.json({ result: results[randomIndex] });
     }
 
     // Sort by creation timestamp

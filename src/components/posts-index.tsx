@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import PostCard, { type PostCardData } from './post-card';
 import PostDialog from './post-dialog';
+import OnThisDay from './on-this-day';
 import type { SearchResult } from '@/lib/semantic-search';
 
 interface PostsResponse {
@@ -59,6 +60,9 @@ export default function PostsIndex() {
 
   // Dialog state
   const [selectedPost, setSelectedPost] = useState<PostCardData | null>(null);
+
+  // Back to top state
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const observerTarget = useRef<HTMLDivElement>(null);
   const isLoadingRef = useRef(false);
@@ -225,6 +229,18 @@ export default function PostsIndex() {
   }, [hasMore, isLoadingMore, currentPage, hasSearched, searchQuery, loadPosts]);
 
   /**
+   * Scroll listener for back to top button
+   */
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  /**
    * Convert SearchResult to PostCardData
    */
   const searchResultToPostCard = (result: SearchResult): PostCardData => ({
@@ -243,6 +259,38 @@ export default function PostsIndex() {
     setSelectedPost(post);
   };
 
+  /**
+   * Fetch and display a random post
+   */
+  const handleRandomPost = useCallback(async () => {
+    try {
+      const params = new URLSearchParams({
+        random: 'true',
+        type: mediaType,
+      });
+
+      const response = await fetch(`/api/posts?${params.toString()}`);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.error || `Failed to load random post: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      if (data.result) {
+        setSelectedPost(data.result);
+        // Scroll to top to see the dialog
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : 'Failed to load random post'
+      );
+    }
+  }, [mediaType]);
+
   // Determine which posts to display
   const displayPosts =
     hasSearched && searchQuery.length >= 2
@@ -250,7 +298,7 @@ export default function PostsIndex() {
       : posts;
 
   return (
-    <div className="min-h-screen bg-[#FFFBEB]">
+    <div className="min-h-screen bg-[#FFFBEB] paw-pattern">
       {/* Compact Header */}
       <header className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] py-6 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -320,6 +368,16 @@ export default function PostsIndex() {
           {/* Filters - Only show when not searching */}
           {(!hasSearched || searchQuery.length < 2) && (
             <div className="flex flex-wrap items-center justify-center gap-4">
+              {/* Surprise Me Button */}
+              <button
+                onClick={handleRandomPost}
+                className="px-4 py-2.5 rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-all text-sm font-medium flex items-center gap-2 hover:scale-105 transform"
+                aria-label="Surprise me with a random post"
+              >
+                <span>🎲</span>
+                <span>Surprise Me!</span>
+              </button>
+
               {/* Media Type Filter */}
               <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-1 py-1">
                 {(['all', 'photos', 'videos'] as MediaType[]).map((type) => (
@@ -375,6 +433,11 @@ export default function PostsIndex() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* On This Day Section */}
+        {(!hasSearched || searchQuery.length < 2) && (
+          <OnThisDay onPostClick={handlePostClick} />
+        )}
+
         {/* Error Display */}
         {error && (
           <div className="mb-6 p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
@@ -402,23 +465,41 @@ export default function PostsIndex() {
         {/* Empty State */}
         {!isLoading && displayPosts.length === 0 && !error && (
           <div className="text-center py-20">
-            <div className="text-6xl mb-4">🐾</div>
-            <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-2">
-              {hasSearched && searchQuery.length >= 2
-                ? `No results found for "${searchQuery}"`
-                : 'No posts found'}
-            </p>
-            {hasSearched && searchQuery.length >= 2 && (
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setHasSearched(false);
-                  setSearchResults([]);
-                }}
-                className="text-[#F59E0B] hover:text-[#D97706] underline"
-              >
-                Clear search and browse all posts
-              </button>
+            <div className="text-8xl mb-6 animate-bounce">🐕</div>
+            {hasSearched && searchQuery.length >= 2 ? (
+              <>
+                <h3 className="text-2xl font-bold text-[#78350F] mb-3">
+                  Woof! Nothing here yet...
+                </h3>
+                <p className="text-lg text-[#92400E] mb-4">
+                  I couldn&apos;t find anything matching &quot;{searchQuery}&quot;
+                </p>
+                <p className="text-sm text-[#92400E] mb-6">
+                  Try searching for &quot;cheese&quot; or &quot;biscuit dance&quot; - those are my favorites! 🧀
+                </p>
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setHasSearched(false);
+                    setSearchResults([]);
+                  }}
+                  className="px-6 py-3 rounded-full bg-[#F59E0B] text-white font-medium hover:bg-[#D97706] hover:scale-105 transform transition-all duration-200 shadow-md hover:shadow-lg"
+                >
+                  Clear search and browse all posts
+                </button>
+              </>
+            ) : (
+              <>
+                <h3 className="text-2xl font-bold text-[#78350F] mb-3">
+                  No adventures to show yet!
+                </h3>
+                <p className="text-lg text-[#92400E] mb-4">
+                  Check back soon for more of my antics! 🐾
+                </p>
+                <p className="text-sm text-[#92400E]">
+                  Or try searching for something fun - I&apos;ve got lots of stories to share!
+                </p>
+              </>
             )}
           </div>
         )}
@@ -484,6 +565,19 @@ export default function PostsIndex() {
           }
         }}
       />
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="fixed bottom-24 right-6 z-40 w-12 h-12 rounded-full bg-[#F59E0B] text-white shadow-lg hover:bg-[#D97706] hover:shadow-xl hover:scale-110 transform transition-all duration-200 flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-[#F59E0B] focus:ring-opacity-50"
+          aria-label="Back to top"
+        >
+          <span className="text-2xl">🐾</span>
+        </button>
+      )}
     </div>
   );
 }

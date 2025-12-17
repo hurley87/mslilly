@@ -24,6 +24,15 @@ const SAMPLE_QUESTIONS = [
  * Chat component for conversing with Ms. Lilly the basset hound
  * Floating widget with FAB button and modal interface
  */
+const TYPING_MESSAGES = [
+  'Sniffing for answers...',
+  'Wagging brain...',
+  '*ear flop* Processing...',
+  'Checking my treat notes...',
+  'Pondering deeply...',
+  'Digging through memories...',
+] as const;
+
 export default function Chat() {
   const { messages, sendMessage, status, error } = useChat({
     transport: new DefaultChatTransport({
@@ -32,6 +41,7 @@ export default function Chat() {
   });
   const [input, setInput] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [typingMessageIndex, setTypingMessageIndex] = useState(0);
   const isLoading = status === 'streaming' || status === 'submitted';
 
   /**
@@ -84,6 +94,22 @@ export default function Chat() {
       inputRef.current.style.height = `${Math.min(inputRef.current.scrollHeight, 120)}px`;
     }
   }, [input]);
+
+  /**
+   * Cycle through typing messages when loading
+   */
+  useEffect(() => {
+    if (!isLoading) {
+      setTypingMessageIndex(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setTypingMessageIndex((prev) => (prev + 1) % TYPING_MESSAGES.length);
+    }, 2000); // Change message every 2 seconds
+
+    return () => clearInterval(interval);
+  }, [isLoading]);
 
   /**
    * Formats Unix timestamp (seconds) to a readable date string
@@ -330,7 +356,7 @@ export default function Chat() {
                           />
                         </div>
                         <span className="text-sm text-[#92400E] font-medium">
-                          Thinking...
+                          {TYPING_MESSAGES[typingMessageIndex]}
                         </span>
                         <span className="text-lg">🦴</span>
                       </div>
