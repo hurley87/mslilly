@@ -360,7 +360,7 @@ export default function PostsIndex() {
               <button
                 key={tag}
                 onClick={() => setSearchQuery(tag)}
-                className="px-3 py-1.5 text-sm rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-colors"
+                className="px-5 py-2.5 text-base rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-colors"
               >
                 {tag}
               </button>
@@ -380,13 +380,13 @@ export default function PostsIndex() {
                 <span>Surprise Me!</span>
               </button>
 
-              {/* Media Type Filter */}
+              {/* Sort Buttons */}
               <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-1 py-1">
-                {(['all', 'photos', 'videos'] as MediaType[]).map((type) => (
+                {(['newest', 'oldest'] as SortOrder[]).map((order) => (
                   <button
-                    key={type}
+                    key={order}
                     onClick={() => {
-                      setMediaType(type);
+                      setSortOrder(order);
                       setCurrentPage(1);
                       // Clear search when filters change
                       if (hasSearched) {
@@ -396,38 +396,15 @@ export default function PostsIndex() {
                       }
                     }}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                      mediaType === type
+                      sortOrder === order
                         ? 'bg-white text-[#F59E0B] shadow-md'
                         : 'text-white/80 hover:text-white hover:bg-white/10'
                     }`}
                   >
-                    {type === 'all' ? 'All' : type === 'photos' ? '📷 Photos' : '🎥 Videos'}
+                    {order === 'newest' ? 'Newest First' : 'Oldest First'}
                   </button>
                 ))}
               </div>
-
-              {/* Sort Dropdown */}
-              <select
-                value={sortOrder}
-                onChange={(e) => {
-                  setSortOrder(e.target.value as SortOrder);
-                  setCurrentPage(1);
-                  // Clear search when filters change
-                  if (hasSearched) {
-                    setSearchQuery('');
-                    setHasSearched(false);
-                    setSearchResults([]);
-                  }
-                }}
-                className="px-1 py-2.5 rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/30 focus:outline-none focus:bg-white/30 transition-colors text-sm font-medium cursor-pointer"
-              >
-                <option value="newest" className="text-zinc-900">
-                  Newest First
-                </option>
-                <option value="oldest" className="text-zinc-900">
-                  Oldest First
-                </option>
-              </select>
             </div>
           )}
         </div>

@@ -125,7 +125,6 @@ export default function OnThisDay({ onPostClick }: OnThisDayProps) {
         aria-label={`${isExpanded ? 'Collapse' : 'Expand'} On This Day section`}
       >
         <div className="flex items-center gap-3">
-          <span className="text-2xl">📅</span>
           <div className="text-left">
             <h2 className="text-lg font-bold text-[#78350F]">
               On This Day: {monthName} {day}
